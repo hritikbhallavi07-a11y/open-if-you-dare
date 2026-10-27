@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09090f">
+<meta name="description" content="A tiny mystery gift. Open if you dare.">
+<title>Open If You Dare 🎁</title>
+<style>
+  :root { color-scheme: dark; --bg:#09090f; --card:#14141f; --pink:#ff4fa3; --violet:#9b7bff; --muted:#b8b5c9; }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; min-height:100vh; display:grid; place-items:center; overflow-x:hidden;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:#fff;
+    background:radial-gradient(ellipse at 20% 10%,#282044 0,transparent 38%),
+               radial-gradient(ellipse at 90% 85%,#35142f 0,transparent 34%),var(--bg);
+    padding:22px;
+  }
+  .stars { position:fixed; inset:0; pointer-events:none; opacity:.55;
+    background-image:radial-gradient(#fff 1px,transparent 1px),radial-gradient(#a99aff 1px,transparent 1px);
+    background-size:73px 73px,113px 113px; background-position:0 0,35px 24px; }
+  main { position:relative; width:min(100%,460px); text-align:center; }
+  .eyebrow { color:#c6b8ff; letter-spacing:.22em; font-size:.72rem; text-transform:uppercase; }
+  h1 { font-size:clamp(2rem,9vw,3.2rem); line-height:1.05; margin:12px 0; letter-spacing:-.05em; }
+  h1 span { color:var(--pink); }
+  .sub { color:var(--muted); line-height:1.55; margin:0 auto 24px; max-width:330px; }
+  .gift-area { min-height:245px; display:grid; place-items:center; }
+  .gift-button { background:none; border:0; cursor:pointer; padding:10px; border-radius:24px; color:inherit; }
+  .gift-button:focus-visible, button:focus-visible { outline:3px solid #fff; outline-offset:5px; }
+  .gift { position:relative; width:156px; height:126px; margin-top:48px; filter:drop-shadow(0 14px 24px #0008); animation:bob 2.8s ease-in-out infinite; }
+  .box { position:absolute; left:9px; bottom:0; width:138px; height:91px; border-radius:8px 8px 13px 13px;
+    background:linear-gradient(135deg,#ff5a9f,#b12d75); border:1px solid #ff9bc8; }
+  .lid { position:absolute; left:0; top:15px; width:156px; height:29px; border-radius:7px;
+    background:linear-gradient(135deg,#ff8ac0,#d23d8d); border:1px solid #ffc0df; transform:rotate(-3deg); }
+  .ribbon-v { position:absolute; left:66px; top:16px; height:111px; width:24px; background:linear-gradient(90deg,#ffe5a4,#fff0c8,#e6b65e); z-index:2; }
+  .ribbon-h { position:absolute; left:10px; top:50px; width:136px; height:18px; background:linear-gradient(#ffe5a4,#d9a94d); z-index:2; }
+  .bow { position:absolute; top:-13px; left:58px; width:42px; height:32px; z-index:3; }
+  .bow:before,.bow:after { content:""; position:absolute; width:27px; height:22px; border:7px solid #ffe5a4; border-radius:70% 70% 20% 70%; }
+  .bow:before { left:-11px; transform:rotate(28deg); } .bow:after { right:-11px; transform:scaleX(-1) rotate(28deg); }
+  .sparkle { position:absolute; color:#ffe7a6; font-size:23px; animation:twinkle 1.7s infinite alternate; }
+  .s1 { left:0; top:14px; } .s2 { right:0; top:40px; animation-delay:.5s; } .s3 { right:15px; top:-18px; animation-delay:.9s; }
+  .hint { font-size:.82rem; color:#d0c9e4; margin-top:10px; }
+  .panel { display:none; margin:12px 0 0; padding:23px 20px; border:1px solid #ffffff20; border-radius:22px;
+    background:linear-gradient(145deg,#191827ee,#11111bee); box-shadow:0 18px 55px #0005; animation:pop .35s ease both; }
+  .panel.show { display:block; }
+  .emoji { font-size:2.5rem; margin-bottom:8px; }
+  .panel h2 { margin:4px 0 9px; font-size:1.35rem; }
+  .panel p { margin:0; color:#d8d5e4; line-height:1.6; }
+  .actions { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
+  .action { border:1px solid #ffffff22; border-radius:999px; padding:12px 17px; color:white; background:#ffffff0c; font-weight:650; cursor:pointer; }
+  .action.primary { background:linear-gradient(100deg,#a35bff,#f04c9b); border:0; }
+  .footer { color:#858197; font-size:.75rem; margin-top:25px; }
+  .tiny { color:#9994ad; font-size:.72rem; margin-top:9px; }
+  @keyframes bob { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-9px) rotate(1deg)} }
+  @keyframes twinkle { from{opacity:.35;transform:scale(.8)} to{opacity:1;transform:scale(1.2)} }
+  @keyframes pop { from{opacity:0;transform:translateY(10px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+  @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation:none!important; scroll-behavior:auto!important; } }
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<main>
+  <div class="eyebrow">A tiny mystery from Ritwik</div>
+  <h1>Open If <span>You Dare.</span></h1>
+  <p class="sub">You found the door. Now let's see if you're brave enough to open it. 👀</p>
+
+  <section class="gift-area" aria-label="Mystery gift">
+    <button class="gift-button" id="openGift" aria-label="Open the mystery gift">
+      <div class="gift" aria-hidden="true">
+        <span class="sparkle s1">✦</span><span class="sparkle s2">✧</span><span class="sparkle s3">✦</span>
+        <div class="box"></div><div class="ribbon-v"></div><div class="ribbon-h"></div><div class="lid"></div><div class="bow"></div>
+      </div>
+      <div class="hint">TAP THE GIFT TO UNLOCK YOUR FATE</div>
+    </button>
+  </section>
+
+  <section class="panel" id="result" aria-live="polite">
+    <div class="emoji" id="resultEmoji">🎁</div>
+    <h2 id="resultTitle">A surprise awaits...</h2>
+    <p id="resultText">Your mystery is loading.</p>
+    <div class="actions">
+      <button class="action primary" id="another">Open another surprise ↻</button>
+      <button class="action" id="copy">Copy message ✦</button>
+    </div>
+    <div class="tiny" id="copyStatus" role="status"></div>
+  </section>
+  <p class="footer">NO PASSWORDS. NO SECRETS COLLECTED. JUST VIBES. 🖤</p>
+</main>
+<script>
+  const surprises = [
+    { emoji:"💀", title:"Official Diagnosis", text:"You have been diagnosed with… excessive curiosity. The treatment is minding your business. Good luck with that." },
+    { emoji:"🖤", title:"A little truth", text:"You don't have to be everyone's favourite person. Be real, be kind, and save your energy for people who value you." },
+    { emoji:"🤡", title:"Congratulations!", text:"You opened a random box on the internet. Your detective skills are unmatched. Sherlock is shaking." },
+    { emoji:"🌙", title:"A quiet reminder", text:"Even on your weirdest days, you still deserve good things. Take a breath. You're doing better than you think." },
+    { emoji:"👀", title:"Plot twist", text:"The secret was YOU all along. Dramatic? Yes. Necessary? Also yes." },
+    { emoji:"🍪", title:"Emergency Biscuit", text:"This is your sign to drink some water, stretch a little, and acquire a biscuit. Mystery solved. Snack secured." },
+    { emoji:"🕶️", title:"Rare achievement unlocked", text:"You survived another day of pretending you know what you're doing. Honestly? Same energy as a legend." },
+    { emoji:"🎁", title:"The wholesome ending", text:"Send this tiny bit of good energy to someone who made your day better. No big speech needed." },
+    { emoji:"🦇", title:"Dark mode wisdom", text:"Not every silence is a mystery. Sometimes people are just charging their social battery. Including you." },
+    { emoji:"✨", title:"Your random blessing", text:"May your next notification be good news, your snacks be plentiful, and your awkward moments stay off-camera." }
+  ];
+  const openGift = document.getElementById("openGift");
+  const result = document.getElementById("result");
+  const resultEmoji = document.getElementById("resultEmoji");
+  const resultTitle = document.getElementById("resultTitle");
+  const resultText = document.getElementById("resultText");
+  const copyStatus = document.getElementById("copyStatus");
+  let lastIndex = -1;
+  function reveal() {
+    let index;
+    do { index = Math.floor(Math.random() * surprises.length); } while (surprises.length > 1 && index === lastIndex);
+    lastIndex = index;
+    const item = surprises[index];
+    resultEmoji.textContent = item.emoji;
+    resultTitle.textContent = item.title;
+    resultText.textContent = item.text;
+    copyStatus.textContent = "";
+    result.classList.remove("show");
+    void result.offsetWidth;
+    result.classList.add("show");
+    result.scrollIntoView({behavior:"smooth", block:"nearest"});
+  }
+  openGift.addEventListener("click", reveal);
+  document.getElementById("another").addEventListener("click", reveal);
+  document.getElementById("copy").addEventListener("click", async () => {
+    const message = resultTitle.textContent + " — " + resultText.textContent;
+    try {
+      await navigator.clipboard.writeText(message);
+      copyStatus.textContent = "Copied! Share the good vibes. ✨";
+    } catch {
+      copyStatus.textContent = "Select and copy the message manually. ✨";
+    }
+  });
+</script>
+</body>
+</html>
